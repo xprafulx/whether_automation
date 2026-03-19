@@ -18,7 +18,6 @@
         min-height: 100vh;
     }
     
-    /* Dynamic Background Themes */
     body.theme-sunny { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
     body.theme-cloudy { background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); }
     body.theme-rainy { background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); }
@@ -27,7 +26,6 @@
     h1, h2, h3 { font-family: 'Lora', serif; }
     h1 { text-align: center; margin-bottom: 40px; font-size: 2.5em; }
     
-    /* Grid layout */
     .cards-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -35,13 +33,11 @@
         margin-bottom: 40px;
     }
     
-    /* Animations */
     @keyframes fadeUp {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Glassmorphism Cards */
     .card {
         background: rgba(255, 255, 255, 0.65);
         backdrop-filter: blur(12px);
@@ -53,7 +49,6 @@
         opacity: 0;
         animation: fadeUp 0.6s ease-out forwards;
     }
-    /* Stagger the card animations */
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
@@ -81,13 +76,14 @@
     .temp-hot { color: #d35400; font-weight: bold; }
     .temp-mild { color: #27ae60; font-weight: bold; }
 
-    /* Glassmorphism Poem Box */
+    /* UPGRADED POEM BOX */
     .poem-box {
+        position: relative;
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 40px;
+        padding: 50px 40px;
         border-radius: 12px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         font-family: 'Lora', serif;
@@ -99,7 +95,33 @@
         opacity: 0;
         animation: fadeUp 0.8s ease-out forwards;
         animation-delay: 0.5s;
+        overflow: hidden;
     }
+
+    /* The Editorial Watermark Quote */
+    .poem-box::before {
+        content: "“";
+        position: absolute;
+        top: -40px;
+        left: 20px;
+        font-size: 12em;
+        color: rgba(44, 62, 80, 0.05);
+        font-family: 'Lora', serif;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    /* The Blinking Cursor */
+    .cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1.1em;
+        background-color: #2c3e50;
+        vertical-align: text-bottom;
+        margin-left: 4px;
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
     
     .footer {
         text-align: center;
@@ -109,7 +131,7 @@
     }
     </style>
 </head>
-<body class="theme-cloudy">
+<body class="theme-rainy">
 
     <h1>🌤️ Tomorrow's Skies</h1>
 
@@ -210,7 +232,7 @@
                     <span class="weather-data">
                         <span class="temp temp-hot">20.5°C 🌧️</span>
                         <span class="wind" style="font-weight: bold; color: #7f8c8d;">🌬️ 9.1 m/s</span>
-                        <span class="rain">💧 4.2 mm</span>
+                        <span class="rain">💧 5.3 mm</span>
                     </span>
                 </div>
             
@@ -219,7 +241,7 @@
                     <span class="weather-data">
                         <span class="temp temp-mild">16.8°C 🌧️</span>
                         <span class="wind" style="font-weight: bold; color: #7f8c8d;">🌬️ 8.4 m/s</span>
-                        <span class="rain">💧 0.4 mm</span>
+                        <span class="rain">💧 9.7 mm</span>
                     </span>
                 </div>
             
@@ -237,7 +259,7 @@
                     <span class="weather-data">
                         <span class="temp temp-mild">17.6°C 🌧️</span>
                         <span class="wind" style="">🌬️ 5.6 m/s</span>
-                        <span class="rain">💧 0.1 mm</span>
+                        <span class="rain">💧 0.8 mm</span>
                     </span>
                 </div>
             
@@ -247,72 +269,124 @@
     </div>
 
     <h2>📜 The Elements, Translated</h2>
-    <div class="poem-box">**THE ENGLISH POEM**
+    
+    <pre id="raw-poem" style="display: none;">**THE ENGLISH POEM**
 
-"Inhale the whispers of the wind"
+"In Windswept Skies"
 
-Like wisps of cloud, our cities wander,
-Dancing on the breath of air,
-Each one a whispered secret, 
-Daring to unfold, yet hidden still.
+In Aalborg's chilly grasp, 
+autumn's whisper stirs the grass
+a faint 11 degrees on a gray afternoon
+wind whispers secrets, 8.9 m/s, no rain to soothe or to drown
+evening brings a dip, 
+7.3 degrees, darkness gathers, wind still strong
 
-In Aalborg's chill, the wind cuts deep,
-A knife of frost that weaves a shroud,
-While rainless days stretch out like pages,
-A book of melancholy, yet full of beauty's gaze.
+in Copenhagen's softer clasp, 
+cooler days unfold in gray
+9.8 degrees on a windy afternoon, 
+5.8 m/s carries scents of the sea
+evening's calm, 6.0 degrees, 
+6.8 m/s rustles leaves, a symphony
 
-Copenhagen, a city of gentle heart,
-Where mornings dawn with misty veils,
-A soothing serenade that calms the soul,
-As morning light awakens, like a lover's call.
+in Kathmandu's warm and vibrant fold, 
+spring's dance begins anew
+20.5 degrees on an afternoon so bright, 
+9.1 m/s whispers promises of warmth
+rain falls, 5.3 mm, like tears of joy
+evening brings a gentle 16.8, 
+8.4 m/s rustles bamboo, a soothing melody
 
-But in Kathmandu, a whirlwind stirs,
-A vortex of life, with tempests that merge,
-Rain drums against the rooftops, a rhythmic beat,
-As sunbeams dance in wisps, a kaleidoscope of heat.
+which place would I call home tomorrow?
+in Kathmandu's warmth, I see my heart soar
+where monsoon's symphony entwines with scents
+and the soul is nourished by the land's gentle tones
 
-Oh, to be in Kathmandu tomorrow, a soul on fire,
-With winds that blow like passion, and skies that ignite with desire.
-To be enveloped in the warm, lush air,
-And feel the pulse of life, a heartbeat that is hard to bear.
+**THE NEPALI POEM (in Devanagari script)**
 
-But I must choose, a city that beckons me,
-A place where I can breathe, where my spirit can be free.
-Tomorrow, I'll leave the chill of North,
-And ride the winds that blow in Kathmandu's fiery breath.
+अहि गगन गगनमा भने कि 
+आलबोर्गको जाडोमा सेतो 
+तिम्रो दिन जालो, सेतो भाग 
+नौ दिन भन्छै निसान 
+दुई आठ बजी पाँच को बात 
+नभको पवन भारी चाल्छे 
 
-**THE NEPALI POEM (माला छोड्छु भनेर)**
+कोहेनाव्हार्गको पछडी छ 
+आसमा ग्लोमा जति भारी 
+नौ दिन भन्छै बाढी 
+पाँच आठ बजी भाग 
+जति भारी चाल्छे पवन 
+तिम्रो भाग पुन्हि भन्छे पुर्ण 
 
-माला छोड्छु भनेर,
-पलक बिन्चन थुप्रिएकै, हार्यौ,
-ज्यापै खट्ट्यो सांग्री, देखेर खट्ट्यो पान,
-मैले छोडीहाल्छु माथिल्लो शीत को जुन,
+काठमाडौँको ग्रिस्मी फागुने 
+पहिलो पुनि लाग्छे निसान 
+दुई बजी पाँच को बाग 
+गार्ष्य पार्को पवन भारी 
+पाँच को बाग हाति निसान 
+पाँच बजी आठ बजी भाग 
 
-काठमाडौं जानुहोस सपना,
-फागुनको झलकै खल्ली देऊस,
-अवधिता कफला सानो भक्केल,
-खम्मको कागले गाउँमा गाउनु, सपना मेरो,
+म भन्छे फ्रिमा तिमी गार्मी हूँ 
+आजहाल भने तिमीले देखेको 
+म तिमी गार्मी भने पार्क 
+चल हा कोहेनाव्हार्ग छ 
 
-अल्बर्ग जानुहोस संकट,
-चिसो ती चिसो ती हाँसको कागले,
-गाढै हाल्याको बारी बारी,
-खल्ली बाढी हुदै संकट देखि हालो,
+(Note: To read the poem, please copy-paste it in a text editor with Unicode support. For Nepali font support, you may need to install "Nepali Unicode Font" in your device or browser)
 
-लेकिन काठमाडौं मैले हुन्यो सपना,
-वस्त्री बाढ़ी भारि लाग्यो तपाईकै,
-ख्याल लाग्यो तिम्रो पाठको मुरा भारी,
-चाह्यो कोभन भारती हुदै देख्या,
+**English Translation of the Nepali Poem:**
 
-जय छन् तिमी काठमाडौं, मैले हुदै,
-फागून भक्केलै सुक्दैन पान,
-मलाई देखेर सपना दिलो भन्यो,
-हिमालु खसारो, मैले काठमाडौं जानु।
+In this sky so wide,
+Aalborg's coldness is revealed
+its day is gray, so grey
+the rain is far away
+at 2:45 pm, the wind is strong
+but its speed is immense
 
-(Note: The poem written in Nepali follows the traditional Nepali poetic rhythm and uses authentic cultural idioms to evoke the true feeling of the weather. The poem maintains the underlying emotion of the poet, comparing the three locations and expressing a desire to be in Kathmandu.)</div>
+in Copenhagen's misty fold,
+the clouds are heavy, the rain is near
+its day is gray, the rain is high
+at 5:45 pm, the wind is strong
+its speed is immense, its power is
+but now, the day is getting dark
 
-    <div class="footer">
-        <p>Pipeline updated automatically via GitHub Actions • Last run: 2026-03-19 21:33:39</p>
+in Kathmandu's warm spring breeze
+the first signs of rain are there
+at 2:45 pm, the wind is strong
+Garshy (the rain) has come to the city
+at 5:45 pm, the wind is strong
+but now, the day is getting dark
+
+I say, I am in the warmth now
+but what you have seen today
+I am not in the warmth now
+but in this city, Copenhagen, I am
+
+Note: Please be aware that translating a poem can be a difficult task, and sometimes it may lose the original feeling and rhythm. The above translation is an attempt to convey the essence of the original poem in the Nepali poet's voice, but it may not be perfect.</pre>
+    
+    <div class="poem-box">
+        <span id="typed-output"></span><span class="cursor"></span>
     </div>
 
+    <div class="footer">
+        <p>Pipeline updated automatically via GitHub Actions • Last run: 2026-03-19 21:41:29</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const rawText = document.getElementById('raw-poem').textContent;
+            const output = document.getElementById('typed-output');
+            let index = 0;
+            const typingSpeed = 15; // Lower is faster
+
+            function typeWriter() {
+                if (index < rawText.length) {
+                    output.textContent += rawText.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, typingSpeed);
+                }
+            }
+
+            // Wait 1.2 seconds for the frosted glass box to finish fading up, then start typing!
+            setTimeout(typeWriter, 1200);
+        });
+    </script>
 </body>
 </html>
