@@ -3,5 +3,5 @@ python-dotenv>=1.0
 pandas>=2.0
 openmeteo-requests>=0.1
 retry-requests>=0.2
-groq>=1.0
+groq
 requests-cache>=0.9
