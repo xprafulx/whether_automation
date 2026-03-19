@@ -13,77 +13,103 @@
         max-width: 1000px;
         margin: 0 auto;
         padding: 40px 20px;
-        background: #f4f1ea; 
         color: #2c3e50;
+        transition: background 0.8s ease;
+        min-height: 100vh;
     }
-    h1, h2, h3 {
-        font-family: 'Lora', serif;
-        color: #1a252f;
-    }
+    
+    /* Dynamic Background Themes */
+    body.theme-sunny { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+    body.theme-cloudy { background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); }
+    body.theme-rainy { background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); }
+    body.theme-rainy h1, body.theme-rainy h2, body.theme-rainy .footer { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+    h1, h2, h3 { font-family: 'Lora', serif; }
     h1 { text-align: center; margin-bottom: 40px; font-size: 2.5em; }
     
-    /* Grid layout for the Weather Cards */
+    /* Grid layout */
     .cards-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 20px;
         margin-bottom: 40px;
     }
-    .card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        overflow: hidden;
+    
+    /* Animations */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
+    
+    /* Glassmorphism Cards */
+    .card {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeUp 0.6s ease-out forwards;
+    }
+    /* Stagger the card animations */
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+
     .card h3 {
-        background: #2c3e50;
+        background: rgba(44, 62, 80, 0.9);
         color: white;
         margin: 0;
         padding: 15px 20px;
         font-size: 1.2em;
     }
-    .card-content {
-        padding: 20px;
-    }
+    .card-content { padding: 20px; }
     .period-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
     }
     .period-row:last-child { border-bottom: none; }
-    .period-name { font-weight: 600; color: #7f8c8d; width: 80px; }
+    .period-name { font-weight: 600; color: #5a6c7d; width: 80px; }
     .weather-data { display: flex; gap: 15px; font-size: 0.9em; }
     
-    /* Conditional Colors */
     .temp-cold { color: #2980b9; font-weight: bold; }
     .temp-hot { color: #d35400; font-weight: bold; }
     .temp-mild { color: #27ae60; font-weight: bold; }
 
-    /* Poem Box */
+    /* Glassmorphism Poem Box */
     .poem-box {
-        background: white;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
         padding: 40px;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         font-family: 'Lora', serif;
         font-size: 1.15em;
         line-height: 1.8;
         white-space: pre-wrap;
-        color: #34495e;
+        color: #2c3e50;
         margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out forwards;
+        animation-delay: 0.5s;
     }
     
     .footer {
         text-align: center;
-        color: #7f8c8d;
         font-size: 0.85em;
         margin-top: 40px;
+        padding-bottom: 20px;
     }
     </style>
 </head>
-<body>
+<body class="theme-cloudy">
 
     <h1>🌤️ Tomorrow's Skies</h1>
 
@@ -221,95 +247,71 @@
     </div>
 
     <h2>📜 The Elements, Translated</h2>
-    <div class="poem-box">**THE ENGLISH POEM:**
+    <div class="poem-box">**THE ENGLISH POEM**
 
-"A Dance of Skies"
+"Inhale the whispers of the wind"
 
-The winds of Aalborg weave a tapestry so fine,
-A delicate balance of warmth and gentle design,
-A refuge from the chill of northern nights,
-Where shadows whisper secrets in the morning lights.
+Like wisps of cloud, our cities wander,
+Dancing on the breath of air,
+Each one a whispered secret, 
+Daring to unfold, yet hidden still.
 
-In Copenhagen's streets, the breeze carries a sigh,
-A melancholy longing for a distant sky,
-The grayness veils the heart, a somber hue,
-Yet in that somberness, a beauty shines anew.
+In Aalborg's chill, the wind cuts deep,
+A knife of frost that weaves a shroud,
+While rainless days stretch out like pages,
+A book of melancholy, yet full of beauty's gaze.
 
-Kathmandu's warmth enfolds, like a mother's loving care,
-A vibrant tapestry of life, in streets that swirl and share,
-The wind that stirs the mind, like a restless, wakeful guest,
-Echoes of the past, in whispers of a bygone quest.
+Copenhagen, a city of gentle heart,
+Where mornings dawn with misty veils,
+A soothing serenade that calms the soul,
+As morning light awakens, like a lover's call.
 
-Oh, what a mystery this wind, that speaks to the soul,
-A messenger of seasons, of life, of trials, of goal,
-To where will it carry me, as the dawn breaks anew?
-To Aalborg's gentle peace, or Kathmandu's soulful hue?
+But in Kathmandu, a whirlwind stirs,
+A vortex of life, with tempests that merge,
+Rain drums against the rooftops, a rhythmic beat,
+As sunbeams dance in wisps, a kaleidoscope of heat.
 
-Perhaps tomorrow, the heart will find its home,
-In Kathmandu's radiant dawn, where love and laughter roam,
-Where sunbeams dance upon the face, like gentle rays,
-And in the wind's soft whisper, the soul finds its way.
+Oh, to be in Kathmandu tomorrow, a soul on fire,
+With winds that blow like passion, and skies that ignite with desire.
+To be enveloped in the warm, lush air,
+And feel the pulse of life, a heartbeat that is hard to bear.
 
-Here, amidst the Himalayan breeze, where mountains pierce the sky,
-I find my refuge, my peaceful nest, where love does not deny,
-For in the turbulent dance of winds, and skies so grand and wide,
-I find my own place, where love resides.
+But I must choose, a city that beckons me,
+A place where I can breathe, where my spirit can be free.
+Tomorrow, I'll leave the chill of North,
+And ride the winds that blow in Kathmandu's fiery breath.
 
-**THE NEPALI POEM:**
+**THE NEPALI POEM (माला छोड्छु भनेर)**
 
-(सावित्री गीत : सहर निमालो भए )
+माला छोड्छु भनेर,
+पलक बिन्चन थुप्रिएकै, हार्यौ,
+ज्यापै खट्ट्यो सांग्री, देखेर खट्ट्यो पान,
+मैले छोडीहाल्छु माथिल्लो शीत को जुन,
 
-भोके भेरीहरुले सहर निमालो भाए,
-तिमी भोके भेरीहरु पुरा नपाए।
-काठमाडौँका तिमुरो लामबुढ़े,
-विहानि माछिला चाहिए भए।
+काठमाडौं जानुहोस सपना,
+फागुनको झलकै खल्ली देऊस,
+अवधिता कफला सानो भक्केल,
+खम्मको कागले गाउँमा गाउनु, सपना मेरो,
 
-जड्डो निमालो भाए, साँचो नपर्यो,
-हावा किनारी राम्रो भए।
-आसमाए नभिन्यालो, पाइँटी माछियो,
-निमालो भाए माछियो चाहिए।
+अल्बर्ग जानुहोस संकट,
+चिसो ती चिसो ती हाँसको कागले,
+गाढै हाल्याको बारी बारी,
+खल्ली बाढी हुदै संकट देखि हालो,
 
-कसै कसै भलेरे, मुसलमल पाई,
-हावा माछियो हुनलागेको छ।
-मैंला बोल्ने हावा, मैंला स्वादि बाँसुरो,
-मैंला के दिने बाँसुरो सुनाए।
+लेकिन काठमाडौं मैले हुन्यो सपना,
+वस्त्री बाढ़ी भारि लाग्यो तपाईकै,
+ख्याल लाग्यो तिम्रो पाठको मुरा भारी,
+चाह्यो कोभन भारती हुदै देख्या,
 
-भलेरे भेरीहरु, के लागि पाइँटे बाँसुरोलाई?
-बाँसमी बाँसुरो सुखि जाँधुन पाइँटे।
+जय छन् तिमी काठमाडौं, मैले हुदै,
+फागून भक्केलै सुक्दैन पान,
+मलाई देखेर सपना दिलो भन्यो,
+हिमालु खसारो, मैले काठमाडौं जानु।
 
-पाइँटेइँ, कोठै पाइँडो बाँसुरोलाई,
-माछिलानो दिन नि बाँसुरो माछिलाई।
-
-**Translation of The Nepali Poem:**
-
-(Translating the poem loses its essence. I can provide a translation, but it won't do justice to the original)
-
-"SAVITRI'S GEET : THE ROARING OF THE WINDS "
-
-The roaring winds are gentle to me,
-I am a wanderer, in your roar, I find ease.
-The strong ones of Kathmandu, I am but a weak one,
-At dawn, I yearn to see your gentle hue.
-
-If the wind does not blow, my soul is lost,
-If the wind blows gently, my soul finds peace.
-
-Your blowing is the symphony, music of my soul,
-In your blowing, my soul finds its home.
-
-Which is the wind that tells me, the melody of the day?
-The wind that whispers sweet melodies to my heart.
-
-Oh, roaring winds! Why do you speak to me in your own language,
-Why, oh why! do you make my soul sing.
-
-In search of you, the wind that speaks to me,
-I search for the day when my soul will find its place.
-
-Note: A traditional Nepali poetic rhythm is a mix of the poetic style of the ancient Sanskrit, Newari and Tibetan poetry. Here, I used a form inspired by the Nepali poet, Shiva Ram Shrestha, also known as Shiva Kavi.</div>
+(Note: The poem written in Nepali follows the traditional Nepali poetic rhythm and uses authentic cultural idioms to evoke the true feeling of the weather. The poem maintains the underlying emotion of the poet, comparing the three locations and expressing a desire to be in Kathmandu.)</div>
 
     <div class="footer">
-        <p>Pipeline updated automatically via GitHub Actions • Last run: 2026-03-19 21:16:10</p>
+        <p>Pipeline updated automatically via GitHub Actions • Last run: 2026-03-19 21:33:39</p>
     </div>
 
 </body>
