@@ -1,0 +1,70 @@
+name: Weather Pipeline
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Daily at 20:00 Denmark time (UTC+1 → 19:00 UTC)
+    - cron: "7 19 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  run-weather-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run fetch script (API → DB)
+      - name: Run fetch.py
+        run: |
+          python fetch.py
+
+      # 5. Run generate script (DB → poem → HTML)
+      - name: Run generate.py
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python generate.py
+
+      # 6. Debug (optional but nice)
+      - name: Show generated files
+        run: |
+          echo "=== ROOT ==="
+          ls -la
+          echo "=== DOCS ==="
+          ls -la docs || true
+          echo "=== DATABASE ==="
+          ls -la *.db || true
+
+      # 7. Commit results (docs + DB)
+      - name: Commit updated artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          mkdir -p docs
+          git add docs *.db
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update weather data and poem"
+            git push
+          fi
