@@ -77,16 +77,19 @@ def get_weather_styling(row):
     rain = float(row['precipitation'])
     clouds = float(row['cloud_cover'])
     wind = float(row['wind'])
+    period = str(row['period']).lower()
 
-    # Determine Emoji
+    is_night = (period == "night")
+
+    # Determine Emoji (Day vs Night aware)
     if rain > 0:
         icon = "🌧️"
     elif clouds > 60:
         icon = "☁️"
     elif clouds > 20:
-        icon = "⛅"
+        icon = "☁️" if is_night else "⛅"
     else:
-        icon = "☀️"
+        icon = "🌙" if is_night else "☀️"
         
     # Determine Temperature Color Class
     if temp <= 5:
@@ -127,7 +130,7 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
                     <span class="period-name">{row['period'].capitalize()}</span>
                     <span class="weather-data">
                         <span class="temp {temp_class}">{float(row['temperature']):.1f}°C {icon}</span>
-                        <span class="wind" style="{wind_style}">💨 {float(row['wind']):.1f} m/s</span>
+                        <span class="wind" style="{wind_style}">🌬️ {float(row['wind']):.1f} m/s</span>
                         <span class="rain">💧 {float(row['precipitation']):.1f} mm</span>
                     </span>
                 </div>
