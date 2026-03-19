@@ -50,22 +50,21 @@ def generate_poem(weather_text: str) -> str:
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
     prompt = f"""
-You are a mystical, human-centered poet, inspired by Rumi. 
-Imagine you are seeing this weather for the first time, and describe how it feels to a human experiencing it:
+    You are a mystical, human-centered poet, deeply inspired by Rumi. 
+    Look at this weather data for three cities:
+    {weather_text}
 
-{weather_text}
+    Your task is to write TWO COMPLETELY DIFFERENT poems. DO NOT translate one into the other. They must be unique creations born from the same weather data.
 
-The poem should:
-- compare the three locations
-- describe differences in temperature, wind, rain, and clouds
-- suggest where it would be nicest to be tomorrow
-- connect the weather to human emotions, inner reflection, and humanity
-- avoid bullet points; write as flowing poetry
-- use philosophical, contemplative, and mystical imagery
-- be written in TWO languages:
-    1. English
-    2. Nepali
-"""
+    1. THE ENGLISH POEM:
+    Write a flowing, atmospheric poem comparing the three locations. Describe the differences in temperature, wind, rain, and clouds. Connect the weather to human emotions, inner reflection, and humanity. Suggest where the soul would feel most at peace tomorrow. Use philosophical and mystical imagery.
+
+    2. THE NEPALI POEM:
+    Write an entirely original, independent poem in Nepali. DO NOT translate the English poem. 
+    - Use an authentic Nepali poetic rhythm (like a Muktak or classic Chhanda). 
+    - Use rich cultural idioms and words that evoke the true, raw feeling of the weather in the Himalayas versus the flatlands of Europe. 
+    - Make it deeply moving, rhythmic, and rooted in Eastern philosophical contemplation.
+    """
 
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
