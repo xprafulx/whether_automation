@@ -68,7 +68,7 @@ The poem should:
 """
 
     response = client.chat.completions.create(
-        model="llama3-13b",
+        model="llama-3.1-8b-instant",
         messages=[{"role": "user", "content": prompt}]
     )
 
