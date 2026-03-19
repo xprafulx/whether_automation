@@ -176,7 +176,6 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         min-height: 100vh;
     }}
     
-    /* Dynamic Background Themes */
     body.theme-sunny {{ background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }}
     body.theme-cloudy {{ background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); }}
     body.theme-rainy {{ background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); }}
@@ -185,7 +184,6 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     h1, h2, h3 {{ font-family: 'Lora', serif; }}
     h1 {{ text-align: center; margin-bottom: 40px; font-size: 2.5em; }}
     
-    /* Grid layout */
     .cards-container {{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -193,13 +191,11 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         margin-bottom: 40px;
     }}
     
-    /* Animations */
     @keyframes fadeUp {{
         from {{ opacity: 0; transform: translateY(20px); }}
         to {{ opacity: 1; transform: translateY(0); }}
     }}
     
-    /* Glassmorphism Cards */
     .card {{
         background: rgba(255, 255, 255, 0.65);
         backdrop-filter: blur(12px);
@@ -211,7 +207,6 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         opacity: 0;
         animation: fadeUp 0.6s ease-out forwards;
     }}
-    /* Stagger the card animations */
     .card:nth-child(1) {{ animation-delay: 0.1s; }}
     .card:nth-child(2) {{ animation-delay: 0.2s; }}
     .card:nth-child(3) {{ animation-delay: 0.3s; }}
@@ -239,13 +234,14 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     .temp-hot {{ color: #d35400; font-weight: bold; }}
     .temp-mild {{ color: #27ae60; font-weight: bold; }}
 
-    /* Glassmorphism Poem Box */
+    /* UPGRADED POEM BOX */
     .poem-box {{
+        position: relative;
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 40px;
+        padding: 50px 40px;
         border-radius: 12px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         font-family: 'Lora', serif;
@@ -257,7 +253,33 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         opacity: 0;
         animation: fadeUp 0.8s ease-out forwards;
         animation-delay: 0.5s;
+        overflow: hidden;
     }}
+
+    /* The Editorial Watermark Quote */
+    .poem-box::before {{
+        content: "“";
+        position: absolute;
+        top: -40px;
+        left: 20px;
+        font-size: 12em;
+        color: rgba(44, 62, 80, 0.05);
+        font-family: 'Lora', serif;
+        line-height: 1;
+        pointer-events: none;
+    }}
+
+    /* The Blinking Cursor */
+    .cursor {{
+        display: inline-block;
+        width: 3px;
+        height: 1.1em;
+        background-color: #2c3e50;
+        vertical-align: text-bottom;
+        margin-left: 4px;
+        animation: blink 1s step-end infinite;
+    }}
+    @keyframes blink {{ 50% {{ opacity: 0; }} }}
     
     .footer {{
         text-align: center;
@@ -276,12 +298,36 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     </div>
 
     <h2>📜 The Elements, Translated</h2>
-    <div class="poem-box">{poem}</div>
+    
+    <pre id="raw-poem" style="display: none;">{poem}</pre>
+    
+    <div class="poem-box">
+        <span id="typed-output"></span><span class="cursor"></span>
+    </div>
 
     <div class="footer">
         <p>Pipeline updated automatically via GitHub Actions • Last run: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {{
+            const rawText = document.getElementById('raw-poem').textContent;
+            const output = document.getElementById('typed-output');
+            let index = 0;
+            const typingSpeed = 15; // Lower is faster
+
+            function typeWriter() {{
+                if (index < rawText.length) {{
+                    output.textContent += rawText.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, typingSpeed);
+                }}
+            }}
+
+            // Wait 1.2 seconds for the frosted glass box to finish fading up, then start typing!
+            setTimeout(typeWriter, 1200);
+        }});
+    </script>
 </body>
 </html>
 """
