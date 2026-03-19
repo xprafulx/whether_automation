@@ -40,6 +40,12 @@ def format_weather_for_prompt(df: pd.DataFrame) -> str:
 # -------------------------------
 # Generate poem using Groq
 # -------------------------------
+
+api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    raise RuntimeError("Missing GROQ_API_KEY environment variable")
+
+
 def generate_poem(weather_text: str) -> str:
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
