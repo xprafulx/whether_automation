@@ -126,9 +126,9 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
                 <div class="period-row">
                     <span class="period-name">{row['period'].capitalize()}</span>
                     <span class="weather-data">
-                        <span class="temp {temp_class}">{row['temperature']}°C {icon}</span>
-                        <span class="wind" style="{wind_style}">💨 {row['wind']} m/s</span>
-                        <span class="rain">💧 {row['precipitation']} mm</span>
+                        <span class="temp {temp_class}">{float(row['temperature']):.1f}°C {icon}</span>
+                        <span class="wind" style="{wind_style}">💨 {float(row['wind']):.1f} m/s</span>
+                        <span class="rain">💧 {float(row['precipitation']):.1f} mm</span>
                     </span>
                 </div>
             """
