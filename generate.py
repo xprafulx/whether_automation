@@ -88,22 +88,52 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     <title>Weather Poem</title>
 
     <style>
-    body {{
-        font-family: Arial;
-        max-width: 800px;
-        margin: auto;
+    @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600&display=swap');
+
+    body {
+        font-family: 'Nunito', sans-serif;
+        max-width: 900px;
+        margin: 40px auto;
         padding: 20px;
-        background: #f5f7fa;
-    }}
-    h1 {{
-        color: #4a6fa5;
-    }}
-    pre {{
+        background: #f4f1ea; /* Soft, warm, paper-like background */
+        color: #333;
+    }
+    h1, h2, h3 {
+        font-family: 'Lora', serif;
+        color: #2c3e50;
+    }
+    .weather-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
         background: white;
-        padding: 15px;
-        border-radius: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .weather-table th, .weather-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .weather-table th {
+        background-color: #2c3e50;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85em;
+    }
+    .poem-box {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        font-family: 'Lora', serif;
+        font-size: 1.1em;
+        line-height: 1.8;
         white-space: pre-wrap;
-    }}
+        color: #444;
+    }
     </style>
 
 </head>
@@ -112,7 +142,7 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     <h1>🌦️ Tomorrow's Weather</h1>
 
     <h2>📊 Weather Data</h2>
-    <pre>{df.to_string(index=False)}</pre>
+    {df.to_html(index=False, classes="weather-table", border=0)}
 
     <h2>📝 Poem</h2>
     <pre>{poem}</pre>
