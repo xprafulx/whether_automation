@@ -1,10 +1,7 @@
-# For API calls and environment variables
 requests>=2.31
 python-dotenv>=1.0
-
-# For data handling
 pandas>=2.0
-sqlite3   # built-in, so no need to install via pip
-
-# For generating poems with Groq
-groq>=0.0.1  # or the latest version you have access to
+openmeteo-requests>=0.1
+retry-requests>=0.2
+groq>=1.0
+requests-cache>=0.9
