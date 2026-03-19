@@ -6,21 +6,51 @@
     <title>Weather Poem</title>
 
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600&display=swap');
+
     body {
-        font-family: Arial;
-        max-width: 800px;
-        margin: auto;
+        font-family: 'Nunito', sans-serif;
+        max-width: 900px;
+        margin: 40px auto;
         padding: 20px;
-        background: #f5f7fa;
+        background: #f4f1ea; 
+        color: #333;
     }
-    h1 {
-        color: #4a6fa5;
+    h1, h2, h3 {
+        font-family: 'Lora', serif;
+        color: #2c3e50;
     }
-    pre {
+    .weather-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
         background: white;
-        padding: 15px;
-        border-radius: 10px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .weather-table th, .weather-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .weather-table th {
+        background-color: #2c3e50;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85em;
+    }
+    .poem-box {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        font-family: 'Lora', serif;
+        font-size: 1.1em;
+        line-height: 1.8;
         white-space: pre-wrap;
+        color: #444;
     }
     </style>
 
@@ -30,84 +60,204 @@
     <h1>🌦️ Tomorrow's Weather</h1>
 
     <h2>📊 Weather Data</h2>
-    <pre>  location       date    period  temperature  wind  precipitation  humidity  cloud_cover
-   Aalborg 2026-03-20 afternoon    12.050000  8.88            0.0 66.500000    88.000000
-   Aalborg 2026-03-20   evening     7.440000  8.37            0.0 87.750000    69.000000
-   Aalborg 2026-03-20   morning     5.450000  5.10            0.0 95.000000    91.330002
-   Aalborg 2026-03-20     night     4.090000  6.84            0.0 97.750000   100.000000
-Copenhagen 2026-03-20 afternoon     9.840000  5.76            0.0 80.669998    70.330002
-Copenhagen 2026-03-20   evening     5.960000  6.75            0.0 85.750000    80.500000
-Copenhagen 2026-03-20   morning     4.690000  6.60            0.0 94.500000   100.000000
-Copenhagen 2026-03-20     night     4.410000  8.15            0.0 92.879997    84.620003
- Kathmandu 2026-03-20 afternoon    20.459999  9.07            4.2 57.000000   100.000000
- Kathmandu 2026-03-20   evening    16.840000  8.41            0.4 79.750000   100.000000
- Kathmandu 2026-03-20   morning    24.520000 11.59            0.0 37.330002    87.500000
- Kathmandu 2026-03-20     night    17.580000  5.64            0.1 54.380001    86.379997</pre>
+    <table class="dataframe weather-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>location</th>
+      <th>date</th>
+      <th>period</th>
+      <th>temperature</th>
+      <th>wind</th>
+      <th>precipitation</th>
+      <th>humidity</th>
+      <th>cloud_cover</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Aalborg</td>
+      <td>2026-03-20</td>
+      <td>afternoon</td>
+      <td>12.050000</td>
+      <td>8.88</td>
+      <td>0.0</td>
+      <td>66.500000</td>
+      <td>88.000000</td>
+    </tr>
+    <tr>
+      <td>Aalborg</td>
+      <td>2026-03-20</td>
+      <td>evening</td>
+      <td>7.440000</td>
+      <td>8.37</td>
+      <td>0.0</td>
+      <td>87.750000</td>
+      <td>69.000000</td>
+    </tr>
+    <tr>
+      <td>Aalborg</td>
+      <td>2026-03-20</td>
+      <td>morning</td>
+      <td>5.450000</td>
+      <td>5.10</td>
+      <td>0.0</td>
+      <td>95.000000</td>
+      <td>91.330002</td>
+    </tr>
+    <tr>
+      <td>Aalborg</td>
+      <td>2026-03-20</td>
+      <td>night</td>
+      <td>4.090000</td>
+      <td>6.84</td>
+      <td>0.0</td>
+      <td>97.750000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <td>Copenhagen</td>
+      <td>2026-03-20</td>
+      <td>afternoon</td>
+      <td>9.840000</td>
+      <td>5.76</td>
+      <td>0.0</td>
+      <td>80.669998</td>
+      <td>70.330002</td>
+    </tr>
+    <tr>
+      <td>Copenhagen</td>
+      <td>2026-03-20</td>
+      <td>evening</td>
+      <td>5.960000</td>
+      <td>6.75</td>
+      <td>0.0</td>
+      <td>85.750000</td>
+      <td>80.500000</td>
+    </tr>
+    <tr>
+      <td>Copenhagen</td>
+      <td>2026-03-20</td>
+      <td>morning</td>
+      <td>4.690000</td>
+      <td>6.60</td>
+      <td>0.0</td>
+      <td>94.500000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <td>Copenhagen</td>
+      <td>2026-03-20</td>
+      <td>night</td>
+      <td>4.410000</td>
+      <td>8.15</td>
+      <td>0.0</td>
+      <td>92.879997</td>
+      <td>84.620003</td>
+    </tr>
+    <tr>
+      <td>Kathmandu</td>
+      <td>2026-03-20</td>
+      <td>afternoon</td>
+      <td>20.459999</td>
+      <td>9.07</td>
+      <td>4.2</td>
+      <td>57.000000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <td>Kathmandu</td>
+      <td>2026-03-20</td>
+      <td>evening</td>
+      <td>16.840000</td>
+      <td>8.41</td>
+      <td>0.4</td>
+      <td>79.750000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <td>Kathmandu</td>
+      <td>2026-03-20</td>
+      <td>morning</td>
+      <td>24.520000</td>
+      <td>11.59</td>
+      <td>0.0</td>
+      <td>37.330002</td>
+      <td>87.500000</td>
+    </tr>
+    <tr>
+      <td>Kathmandu</td>
+      <td>2026-03-20</td>
+      <td>night</td>
+      <td>17.580000</td>
+      <td>5.64</td>
+      <td>0.1</td>
+      <td>54.380001</td>
+      <td>86.379997</td>
+    </tr>
+  </tbody>
+</table>
 
     <h2>📝 Poem</h2>
-    <pre>**English version**
+    <div class="poem-box">**THE ENGLISH POEM:**
 
-In Aalborg's chill, I find reprieve from the mundane
-where temperatures dance between 5 and 12 degrees,
-wind whispers secrets, a gentle lover's sigh,
-rain's absence a reminder of life's transient breeze.
+Echoes of the Skies
 
-In Copenhagen's warmth, I behold the beauty of balance
- temperatures sway between 5 and 10 degrees,
-wind's caress soothes the soul, a lullaby of harmony,
-yet rain's tears fall softly, a melancholic serenade.
+In Aalborg's twilight, chill whispers sway,
+As winter's veil unfurls, and darkness holds its way.
+The wind, a mournful lover, weeps with lonely sighs,
+While rainless mornings cling to sorrow's hesitant eyes.
 
-In Kathmandu's heat, I bask in vibrant life
-temperatures soar, a passionate lover's fiery breath,
-wind's wild dance stirs the soul, a rebellious cry,
-and rain's deluge awakens the heart, a refreshing baptism.
+Copenhagen's evening, a melancholy bride,
+Entwines in misty veil, where shadows gently reside.
+The Baltic's calm, a mirror to the soul's dark night,
+Reflects the heart's deepest tremors, in gentle, soothing light.
 
-As I meander through these cities, weather-worn and wise
-I ponder the human condition, a reflection of the skies.
-The chill of Aalborg's air reminds us to nurture our hearts
-through introspection and quiet contemplation.
+In Kathmandu, the sun-drenched hills, a fiery blaze,
+Awaken passion's fierce heart, with life's vibrant, vibrant gaze.
+The wind, a zealous dancer, swirls with unbridled delight,
+As monsoon's torrent, a lover's fierce caress, brings life to the night.
 
-Copenhagen's balance teaches us to find solace in the midst
-of life's turmoil, a reminder to breathe, to let go, to trust.
-Kathmandu's heat stirs our passions, a call to rise and shine
-to chase our dreams, to dance in the rain, to be alive.
+In human hearts, the weather stirs, a symphony of moods,
+Reflecting the tempests of the soul, in every whispered mood.
+Yet, amidst the turmoil, a still point, a peaceful shore,
+A place where the heart finds solace, in the warmth of love's gentle core.
 
-Where would I wander tomorrow? Perhaps, I'd follow the sun
-to Kathmandu's vibrant streets, where life pulses strong and free.
-There, I'd bask in the warmth, and let go of inhibitions
-to dance in the rain, to let my spirit soar, to be me.
+Tomorrow, the soul may find peace, in Kathmandu's radiant glow,
+Where sunbeams kindle hope, and the heart's deepest wounds begin to flow.
+Or perhaps, in Aalborg's quiet, the stillness of the night,
+Shall reveal a truth, in the silence, that only winter's darkness can ignite.
 
-**Nepali version:**
+**THE NEPALI POEM:**
 
-आलबोर्गको शीतलपुर्णीमा मैं राहत लिन्छन्
-पाचदशैँ तिर उष्मा डिब्राम्छ, वातको स्वार्थ प्रकट
-वर्षा नभएको एक निराशा लाग्छ, जस्तो जीवनको अनिच्छिक छर्रा
-मान्छेहरूले पनि नै व्यस्त जीवनबाट लाग्ने पिडलाई थाहा पढ्छन्
+(मुक्ताक)
 
-कोपेनहेगनको गोरमगोरीमा मैं सौभाग्यबोधम् दिई दिन्छु
-पांचदसै, बारहमासै टर उष्मा भिन्नताले वाहेको छ
-वातका कामेराले पनि कोर्ले भक्सारे मान्छेको हृदय चिन्ह
-आमै पनि वर्षाको बिस्तारले मनमा विचारमा प्रवेश गर्छ
+नेपाली भाषामा एक मुक्ताक (निरनिराली):
 
-काठमाडौँको तापमानबिनासुनि कुरामा के कुरा भन्छ?
-वातकोस्वरूप र वर्षाको भिन्नता पनि कुरा भन्नेछ
-आम मैं नैं के तीन सहरहरु पार गर्दै जाता छु
-आलेग्र्य विचारको भ्रमणमा मैं नैं के प्रवेश गर्दछु
+काशी को वातावरण की गहराइँ,
+भारी साँझलो भूमि देखूँ
 
-वाहेगरो आलबोर्ग, वाहेगरो कोपेनहेगन, वाहेगरो काठमाडौँ
-बस भित्री मन कै अनुसारी विचारले जीवनको अन्तःकरणका अनुसारी निर्णय लन्छ
-मैं काठमाडौँको गरमीमा हुन्छु, कती वायुको संवेगले मनको वास्तविकता पारि दिएर
-आमै पनि बास्तविक जीवनमै वायु कै निर्भय वाचाल राहेनले देइँ।
+आसम की धूप लेने का कोई रास्ता,
+नहीं मेरे के पायों पर हाँथ हैं
 
-क्या मैं कल काठमाडौँमै जानेछु? चाँडै गर्ती हुन्छ, काथर्माडौँमै राहत ल्याउने
-कठमाडौँमै के चाहिए? मात्र, भावनादिव्य प्रवृत्तिको विरासत पुनर्लाग्छ
-सबैकै छना, र केवल, तपाईँ मैं, यी दिनोंमै, वातावरण मा सार्को
-सँगै नैं छना, के मै काठमाडौँमै जावसके राहत ल्याउँ
+किनारे के दृश्य से दिल की दीवारें टूट जाने,
+हवा के कारण दूरस्थ स्थल
 
-(Note: Please keep in mind that translation may not be word-for-word perfect, as poetry's nuances and cultural context can be difficult to convey across languages)</pre>
+या रात का अंधकार,
+भोर के प्रकाश को ढक लेना,
+
+कतार में मैं बैठूँगा: किसी कठिन कार्य की बाधा,
+पूर्णिमा की तरह, श्वेत के को छित्रित किये हुए हाँथ
+
+मैं भी निभाऊँगा,
+या मेरी चेतना की संकट को शांत करूँगा,
+
+आज रात के बारे में सोचा था, किसी दूसरे के लिए,
+लेकिन काशी की धूप के लिए ही सही है
+
+नेपाली में सटीक अनुवाद उपलब्ध नहीं है, क्योंकि यह एक मुक्ताक है (निरनिराली) किसी विशिष्ट माध्यम के लिए निर्दिष्ट नहीं है।</div>
 
     <h3>⏱️ Last updated</h3>
-    <p>2026-03-19 19:51:05.557484</p>
+    <p>2026-03-19 20:39:13.232852</p>
 
 </body>
 </html>
