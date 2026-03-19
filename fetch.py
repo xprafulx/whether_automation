@@ -7,6 +7,7 @@ import openmeteo_requests
 import pandas as pd
 import requests_cache
 from retry_requests import retry
+import os
 
 # -------------------------------
 # Config
@@ -113,7 +114,8 @@ def transform_weather(df: pd.DataFrame) -> pd.DataFrame:
 # -------------------------------
 # Store in SQLite
 # -------------------------------
-def store_weather(data: pd.DataFrame) -> None:
+def store_weather(data):
+    os.makedirs("data", exist_ok=True)  # ← ensure folder exists
     conn = sqlite3.connect("data/weather.db")
     data.to_sql("weather", conn, if_exists="replace", index=False)
     conn.close()
