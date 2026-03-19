@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import os
 import sqlite3
+import random
 import pandas as pd
 from groq import Groq
-
 
 # -------------------------------
 # Load data from SQLite
@@ -14,7 +14,6 @@ def load_weather() -> pd.DataFrame:
     df = pd.read_sql("SELECT * FROM weather", conn)
     conn.close()
     return df
-
 
 # -------------------------------
 # Format data for LLM
@@ -27,15 +26,14 @@ def format_weather_for_prompt(df: pd.DataFrame) -> str:
         for _, row in loc_df.iterrows():
             text += (
                 f"{row['period']}: "
-                f"{row['temperature']}°C, "
-                f"wind {row['wind']} m/s, "
-                f"rain {row['precipitation']} mm\n"
+                f"{float(row['temperature']):.1f}°C, "
+                f"wind {float(row['wind']):.1f} m/s, "
+                f"rain {float(row['precipitation']):.1f} mm\n"
             )
     return text
 
-
 # -------------------------------
-# Generate poem using Groq
+# Generate poem using Groq (ROULETTE)
 # -------------------------------
 def generate_poem(weather_text: str) -> str:
     api_key = os.getenv("GROQ_API_KEY")
@@ -44,21 +42,31 @@ def generate_poem(weather_text: str) -> str:
 
     client = Groq(api_key=api_key)
 
+    # The Persona Roulette!
+    personas = [
+        "a mystical, human-centered poet, deeply inspired by Rumi",
+        "a cynical but poetic cyberpunk hacker who loves rain and neon lights",
+        "a dramatic, melancholy Shakespearean actor walking the moors",
+        "an overly enthusiastic, joyful golden retriever who just loves being outside"
+    ]
+    chosen_persona = random.choice(personas)
+    print(f"🎭 Today's AI Persona: {chosen_persona}")
+
     prompt = f"""
-    You are a mystical, human-centered poet, deeply inspired by Rumi. 
+    You are {chosen_persona}. 
     Look at this weather data for three cities:
     {weather_text}
 
     Your task is to write TWO COMPLETELY DIFFERENT poems. DO NOT translate one into the other. They must be unique creations born from the same weather data.
 
     1. THE ENGLISH POEM:
-    Write a flowing, atmospheric poem comparing the three locations. Describe the differences in temperature, wind, rain, and clouds. Connect the weather to human emotions, inner reflection, and humanity. Suggest where the soul would feel most at peace tomorrow. Use philosophical and mystical imagery.
+    Write a flowing, atmospheric poem comparing the three locations. Describe the differences in temperature, wind, rain, and clouds. Stay entirely in character as your persona. Suggest where you would most like to be tomorrow based on your persona's preferences.
 
     2. THE NEPALI POEM:
     Write an entirely original, independent poem in Nepali. DO NOT translate the English poem. 
-    - Use an authentic Nepali poetic rhythm (like a Muktak or classic Chhanda). 
-    - Use rich cultural idioms and words that evoke the true, raw feeling of the weather in the Himalayas versus the flatlands of Europe. 
-    - Make it deeply moving, rhythmic, and rooted in Eastern philosophical contemplation.
+    - Use an authentic Nepali poetic rhythm. 
+    - Use rich cultural idioms and words that evoke the true feeling of the weather. 
+    - Make it deeply moving, rhythmic, and maintain the underlying emotion of your persona.
     """
 
     response = client.chat.completions.create(
@@ -67,7 +75,6 @@ def generate_poem(weather_text: str) -> str:
     )
 
     return response.choices[0].message.content
-
 
 # -------------------------------
 # Helper: Dynamic Styling & Emojis
@@ -81,7 +88,6 @@ def get_weather_styling(row):
 
     is_night = (period == "night")
 
-    # Determine Emoji (Day vs Night aware)
     if rain > 0:
         icon = "🌧️"
     elif clouds > 60:
@@ -91,19 +97,16 @@ def get_weather_styling(row):
     else:
         icon = "🌙" if is_night else "☀️"
         
-    # Determine Temperature Color Class
     if temp <= 5:
-        color_class = "temp-cold" # Blue
+        color_class = "temp-cold" 
     elif temp >= 20:
-        color_class = "temp-hot"  # Orange/Red
+        color_class = "temp-hot"  
     else:
-        color_class = "temp-mild" # Neutral
+        color_class = "temp-mild" 
 
-    # Determine Wind Alert
     wind_style = "font-weight: bold; color: #7f8c8d;" if wind > 8 else ""
 
     return icon, color_class, wind_style
-
 
 # -------------------------------
 # Generate HTML page
@@ -111,7 +114,18 @@ def get_weather_styling(row):
 def create_html(poem: str, df: pd.DataFrame) -> None:
     os.makedirs("docs", exist_ok=True)
 
-    # 1. Build the Weather Cards dynamically in Python
+    # 1. Determine overall atmospheric theme based on average weather
+    avg_rain = df['precipitation'].astype(float).mean()
+    avg_clouds = df['cloud_cover'].astype(float).mean()
+
+    if avg_rain > 0.5:
+        theme_class = "theme-rainy"
+    elif avg_clouds > 50:
+        theme_class = "theme-cloudy"
+    else:
+        theme_class = "theme-sunny"
+
+    # 2. Build the Weather Cards dynamically
     cards_html = ""
     for location in df["location"].unique():
         loc_df = df[df["location"] == location]
@@ -141,7 +155,7 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         </div>
         """
 
-    # 2. Inject into the main HTML template
+    # 3. Inject into the main HTML template
     html = f"""
 <!DOCTYPE html>
 <html>
@@ -157,77 +171,103 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
         max-width: 1000px;
         margin: 0 auto;
         padding: 40px 20px;
-        background: #f4f1ea; 
         color: #2c3e50;
+        transition: background 0.8s ease;
+        min-height: 100vh;
     }}
-    h1, h2, h3 {{
-        font-family: 'Lora', serif;
-        color: #1a252f;
-    }}
+    
+    /* Dynamic Background Themes */
+    body.theme-sunny {{ background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }}
+    body.theme-cloudy {{ background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); }}
+    body.theme-rainy {{ background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); }}
+    body.theme-rainy h1, body.theme-rainy h2, body.theme-rainy .footer {{ color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }}
+
+    h1, h2, h3 {{ font-family: 'Lora', serif; }}
     h1 {{ text-align: center; margin-bottom: 40px; font-size: 2.5em; }}
     
-    /* Grid layout for the Weather Cards */
+    /* Grid layout */
     .cards-container {{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 20px;
         margin-bottom: 40px;
     }}
-    .card {{
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        overflow: hidden;
+    
+    /* Animations */
+    @keyframes fadeUp {{
+        from {{ opacity: 0; transform: translateY(20px); }}
+        to {{ opacity: 1; transform: translateY(0); }}
     }}
+    
+    /* Glassmorphism Cards */
+    .card {{
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeUp 0.6s ease-out forwards;
+    }}
+    /* Stagger the card animations */
+    .card:nth-child(1) {{ animation-delay: 0.1s; }}
+    .card:nth-child(2) {{ animation-delay: 0.2s; }}
+    .card:nth-child(3) {{ animation-delay: 0.3s; }}
+
     .card h3 {{
-        background: #2c3e50;
+        background: rgba(44, 62, 80, 0.9);
         color: white;
         margin: 0;
         padding: 15px 20px;
         font-size: 1.2em;
     }}
-    .card-content {{
-        padding: 20px;
-    }}
+    .card-content {{ padding: 20px; }}
     .period-row {{
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
     }}
     .period-row:last-child {{ border-bottom: none; }}
-    .period-name {{ font-weight: 600; color: #7f8c8d; width: 80px; }}
+    .period-name {{ font-weight: 600; color: #5a6c7d; width: 80px; }}
     .weather-data {{ display: flex; gap: 15px; font-size: 0.9em; }}
     
-    /* Conditional Colors */
     .temp-cold {{ color: #2980b9; font-weight: bold; }}
     .temp-hot {{ color: #d35400; font-weight: bold; }}
     .temp-mild {{ color: #27ae60; font-weight: bold; }}
 
-    /* Poem Box */
+    /* Glassmorphism Poem Box */
     .poem-box {{
-        background: white;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
         padding: 40px;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         font-family: 'Lora', serif;
         font-size: 1.15em;
         line-height: 1.8;
         white-space: pre-wrap;
-        color: #34495e;
+        color: #2c3e50;
         margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out forwards;
+        animation-delay: 0.5s;
     }}
     
     .footer {{
         text-align: center;
-        color: #7f8c8d;
         font-size: 0.85em;
         margin-top: 40px;
+        padding-bottom: 20px;
     }}
     </style>
 </head>
-<body>
+<body class="{theme_class}">
 
     <h1>🌤️ Tomorrow's Skies</h1>
 
@@ -249,7 +289,6 @@ def create_html(poem: str, df: pd.DataFrame) -> None:
     with open("docs/index.html", "w", encoding="utf-8") as f:
         f.write(html)
 
-
 # -------------------------------
 # Main
 # -------------------------------
@@ -265,7 +304,6 @@ def main():
     create_html(poem, df)
 
     print("✅ Dashboard generated in docs/index.html!")
-
 
 if __name__ == "__main__":
     main()
