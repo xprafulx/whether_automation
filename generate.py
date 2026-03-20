@@ -57,6 +57,10 @@ def generate_poem(weather_text: str) -> str:
     Look at this weather data for three cities:
     {weather_text}
 
+    CRITICAL RULE: YOU MUST NOT USE ANY NUMBERS OR RAW DATA IN THE POEM. 
+    Do not write "11 degrees" or "8.9 m/s" or "5.3 mm". 
+    Instead, translate the numbers into sensory descriptions (e.g., "a biting frost", "a howling gale", "a gentle drizzle").
+
     Your task is to write TWO COMPLETELY DIFFERENT poems. DO NOT translate one into the other. They must be unique creations born from the same weather data.
 
     1. THE ENGLISH POEM:
