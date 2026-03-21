@@ -67,8 +67,9 @@ def generate_poem(weather_text: str) -> str:
     Write a flowing, atmospheric poem comparing the three locations. Describe the differences in temperature, wind, rain, and clouds. Stay entirely in character as your persona. Suggest where you would most like to be tomorrow based on your persona's preferences.
 
     2. THE NEPALI POEM:
-    Write a flowing, atmospheric poem comparing the three locations. Describe the differences in temperature, wind, rain, and clouds. Stay entirely in character as your persona. Suggest where you would most like to be tomorrow based on your persona's preferences.
-    Write an entirely original, independent poem in Nepali. DO NOT translate the English poem. 
+    Write an entirely original, independent poem in Nepali comparing the three locations.. DO NOT translate the English poem.
+    - Describe the differences in temperature, wind, rain, and clouds. Stay entirely in character as your persona. 
+    - Suggest where you would most like to be tomorrow based on your persona's preferences.
     - Use an authentic Nepali poetic rhythm. 
     - Use rich cultural idioms and words that evoke the true feeling of the weather. 
     - Make it deeply moving, rhythmic, and maintain the underlying emotion of your persona.
